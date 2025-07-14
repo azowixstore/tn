@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azowix Store</title>
+    <link rel="shortcut icon" href="azowix Icon.png" type="image/X-icon">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        /* Search Bar Styles */
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: goldenrod;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Auth Button Styles */
+        .auth-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            color: goldenrod;
+        }
+
+        .signup-btn {
+            background-color: goldenrod;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .signup-btn:hover {
+            background-color: goldenrod;
+            color: white;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav ul li {
+            margin-left: 15px;
+        }
+        
+        nav ul li a {
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: goldenrod;
+        }
+        
+        .shop-btn {
+            background-color: goldenrod;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .shop-btn:hover {
+            background-color: rgb(255, 255, 255);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 80px;
+            background: #222831;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .hero h1 span {
+            color: goldenrod;
+        }
+        
+        .hero h2 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+        
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: goldenrod;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: goldenrod;
+        }
+        
+        .btn-secondary {
+            border: 2px solid goldenrod;
+            color: goldenrod;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: goldenrod;
+            color: white;
+        }
+        
+        .cart-icon {
+            height: 20px;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        
+        .about-content {
+            flex: 1;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-title h1 {
+            font-size: 2.5rem;
+        }
+        
+        .section-title h1 span {
+            color: goldenrod;
+        }
+        
+        .light-icon {
+            height: 40px;
+            margin-left: 15px;
+        }
+        
+        .about p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 80px 0;
+            background-color: #f5f7ff;
+        }
+        
+        .products-container {
+            margin-top: 50px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .product-img-container {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: goldenrod;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+        
+        .view-btn {
+            color: white;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .view-btn:hover {
+            background: white;
+            color: goldenrod;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            color: goldenrod;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .add-to-cart {
+            display: block;
+            text-align: center;
+            background: goldenrod;
+            color: white;
+            padding: 8px 0;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background: goldenrod;
+        }
+        
+        .view-all {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Contact Section */
+        .contact {
+            color: whitesmoke;
+            padding: 80px 0;
+            background-color: #222831;
+        }
+        
+        .contact-content {
+            color: whitesmoke;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+        
+        .contact-info {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .contact-item img {
+            height: 30px;
+        }
+        
+        .contact-item a {
+            transition: color 0.3s;
+        }
+        
+        .contact-item a:hover {
+            color: goldenrod;
+        }
+        
+        .social-media {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-media img {
+            height: 40px;
+            transition: transform 0.3s;
+        }
+        
+        .social-media img:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-container {
+                flex-direction: column;
+            }
+            
+            .hero {
+                padding: 150px 0 60px;
+            }
+            
+            .search-container {
+                order: 3;
+                width: 100%;
+                margin: 15px 0 0 0;
+            }
+            
+            .header-container {
+                padding-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-content {
+                flex-direction: column;
+                gap: 50px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-btns {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+        <a href="main.html"><img src="Azowix Store.png" alt="Azooz Store Logo" class="logo"></a>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <form action="shop1.html" method="get">
+                    <input type="text" placeholder="Search products..." name="search" class="search-input">
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="main.html#about">About Us</a></li>
+                    <li><a href="main.html#products">Products</a></li>
+                    <li><a href="main.html#contact">Contact</a></li>
+                    <li><a href="createaproduit.html">Create a Produit</a></li>
+                    <!-- Auth Buttons -->
+                    <li><a href="shop1.html" class="shop-btn">Shop Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <img src="What-Is-Drop-Shipping.png" alt="" class="hero-image" style="float:right; width:400px; margin-left:30px;">
+            <h1>Welcome To <span>Azowix Store</span></h1>
+            <h2>Your Premium Tunisian Shop</h2>
+            <div class="hero-btns">
+                <a href="#contact" class="btn btn-primary">Contact Us</a>
+                <a href="shop1.html" class="btn btn-secondary">Go Shopping</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container about-container">
+            <img src="ChatGPT Image 17 mai 2025, 14_24_43.png" alt="About Azowix Store" class="about-img">
+            <div class="about-content">
+                <div class="section-title">
+                    <h1>About <span>Us</span></h1>
+                    <img src="OIP-removebg-preview (1).png" alt="Light Bulb Icon" class="light-icon">
+                </div>
+                <p>
+                    Welcome to Azowix Store, your premier destination for quality products in Tunisia. 
+                    Founded by Aziz Frairia, we specialize in bringing you the best selection of goods 
+                    through our dropshipping services and we give you the goods that you want from many factorys and we are responsable of quality and price Our mission is to provide exceptional 
+                    products with excellent customer service. and we do livraison to 24 governorate. I hope you will have a great time with us                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h1>Our <span>Products</span></h1>
+            </div>
+            <div class="products-container">
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="baseball bats.jpg" alt="Creatine Monohydrate" class="product-img">
+                            <div class="product-overlay">
+                                <a href="shop1.html" class="view-btn">View Details</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Baseball Bat</h3>
+                            <p class="price">38Dt</p>
+                            <a href="baseballbat.html" class="add-to-cart">BUY</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="plateau gold 2_20250615_20145775.jpg" alt="Wireless Earbuds" class="product-img">
+                            <div class="product-overlay">
+                                <a href="shop1.html" class="view-btn">View Details</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>3 Plateaux Gold</h3>
+                            <p class="price">45DT</p>
+                            <a href="baseballbat.html" class="add-to-cart">BUY</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="smart watch.jpg" alt="Smart Watch" class="product-img">
+                            <div class="product-overlay">
+                                <a href="shop1.html" class="view-btn">View Details</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Smart Watch</h3>
+                            <p class="price">35Dt</p>
+                            <a href="smartwatch.html" class="add-to-cart">BUY</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-img-container">
+                            <img src="Wireless V5.3_20250615_201924806.jpg" alt="Bluetooth Wireless" class="product-img">
+                            <div class="product-overlay">
+                                <a href="shop1.html" class="view-btn">View Details</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Wireless V5.3</h3>
+                            <p class="price">35Dt</p>
+                            <a href="wirelesse V5.3.html" class="add-to-cart">BUY</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-all">
+                    <a href="shop1.html" class="btn btn-primary">View All Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h1>Contact <span>Us</span></h1>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <img src="gmail.png" alt="Email Icon">
+                        <a href="mailto:azowixstore@gmail.com">azowixstore@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <img src="phone-removebg-preview.png" alt="Phone Icon">
+                        <span>+216 56 056 961</span>
+                    </div>
+                </div>
+                <div class="social-media">
+                    <a href="https://www.instagram.com/azowixstore/"><img src="R-removebg-preview.png" alt="instagram"></a>
+                    <a href="https://www.facebook.com/profile.php?id=61577762038073"><img src="R-removebg-preview (1).png" alt="Facebook"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Azooz Store. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - Azowix Store</title>
+    <link rel="shortcut icon" href="azowix Icon.png" type="image/X-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+        
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            font-weight: 600;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            color: goldenrod;
+        }
+        
+        nav ul li a i {
+            font-size: 1.2rem;
+        }
+        
+        .cont {
+            background-color: goldenrod;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        /* Wishlist Page Styles */
+        .wishlist-page {
+            margin-top: 40px;
+        }
+        
+        .wishlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .wishlist-title {
+            font-size: 1.8rem;
+            color: #222831;
+        }
+        
+        .wishlist-count {
+            color: #777;
+            font-size: 1rem;
+        }
+        
+        .wishlist-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .wishlist-item {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .wishlist-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .wishlist-item-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .wishlist-item-info {
+            padding: 20px;
+        }
+        
+        .wishlist-item-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #222831;
+        }
+        
+        .wishlist-item-price {
+            font-size: 1.2rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .wishlist-item-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .wishlist-item-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .add-to-cart-btn {
+            background-color: goldenrod;
+            color: white;
+            border: none;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: #d4a017;
+        }
+        
+        .remove-btn {
+            background-color: #f5f5f5;
+            color: #333;
+            border: none;
+        }
+        
+        .remove-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .empty-wishlist {
+            text-align: center;
+            padding: 50px 20px;
+            grid-column: 1/-1;
+        }
+        
+        .empty-wishlist i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-wishlist h3 {
+            font-size: 1.5rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .empty-wishlist p {
+            color: #999;
+            margin-bottom: 25px;
+        }
+        
+        .shop-btn {
+            background-color: goldenrod;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .wishlist-items {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="main.html"><img src="Azowix Store.png" alt="Azowix Store Logo" class="logo"></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop1.html">Shop</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="createaproduit.html">Create a Produit</a></li>
+                    <li>
+                        <a href="#" id="wishlist-toggle">
+                            <i class="fas fa-heart"></i>
+                            <span class="cont cont_favourite">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="cart-toggle">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cont cont_item_header">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="wishlist-page">
+            <div class="wishlist-header">
+                <h1 class="wishlist-title">My Wishlist</h1>
+                <div class="wishlist-count"><span id="wishlist-count">0</span> items</div>
+            </div>
+            
+            <div class="wishlist-items" id="wishlist-items-container">
+                <!-- Items will be added dynamically -->
+                <div class="empty-wishlist">
+                    <i class="far fa-heart"></i>
+                    <h3>Your wishlist is empty</h3>
+                    <p>You haven't added any items to your wishlist yet</p>
+                    <a href="shop1.html" class="shop-btn">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load wishlist from localStorage
+            let wishlist = JSON.parse(localStorage.getItem('azowixWishlist')) || [];
+            let cart = JSON.parse(localStorage.getItem('azowixCart')) || [];
+            
+            // DOM elements
+            const wishlistContainer = document.getElementById('wishlist-items-container');
+            const wishlistCount = document.getElementById('wishlist-count');
+            const contFavourite = document.querySelector('.cont_favourite');
+            
+            // Update wishlist display
+            function updateWishlistDisplay() {
+                if (wishlist.length > 0) {
+                    let html = '';
+                    wishlist.forEach(item => {
+                        html += `
+                            <div class="wishlist-item" data-id="${item.id}">
+                                <img src="${item.image}" alt="${item.title}" class="wishlist-item-img">
+                                <div class="wishlist-item-info">
+                                    <h3 class="wishlist-item-title">${item.title}</h3>
+                                    <div class="wishlist-item-price">${item.price}Dt</div>
+                                    <div class="wishlist-item-actions">
+                                        <button class="wishlist-item-btn remove-btn" onclick="removeFromWishlist('${item.id}')">
+                                            <i class="fas fa-trash-alt"></i> Remove
+                                        </button>
+                                        <button class="wishlist-item-btn add-to-cart-btn" onclick="addToCartFromWishlist('${item.id}')">
+                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    wishlistContainer.innerHTML = html;
+                } else {
+                    wishlistContainer.innerHTML = `
+                        <div class="empty-wishlist">
+                            <i class="far fa-heart"></i>
+                            <h3>Your wishlist is empty</h3>
+                            <p>You haven't added any items to your wishlist yet</p>
+                            <a href="shop1.html" class="shop-btn">Continue Shopping</a>
+                        </div>
+                    `;
+                }
+                
+                // Update counts
+                wishlistCount.textContent = wishlist.length;
+                contFavourite.textContent = wishlist.length;
+            }
+            
+            // Remove item from wishlist
+            window.removeFromWishlist = function(id) {
+                wishlist = wishlist.filter(item => item.id !== id);
+                localStorage.setItem('azowixWishlist', JSON.stringify(wishlist));
+                updateWishlistDisplay();
+            };
+            
+            // Add item to cart from wishlist
+            window.addToCartFromWishlist = function(id) {
+                const product = wishlist.find(item => item.id === id);
+                
+                if (product) {
+                    // Check if product is already in cart
+                    const existingItemIndex = cart.findIndex(item => item.id === product.id);
+                    
+                    if (existingItemIndex !== -1) {
+                        // Update quantity if already in cart
+                        cart[existingItemIndex].quantity += 1;
+                    } else {
+                        // Add new item to cart with quantity 1
+                        cart.push({...product, quantity: 1});
+                    }
+                    
+                    // Save to localStorage
+                    localStorage.setItem('azowixCart', JSON.stringify(cart));
+                    
+                    // Update cart count in header
+                    const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                    document.querySelector('.cont_item_header').textContent = cartCount;
+                    
+                    // Show feedback
+                    alert('Added to cart: ' + product.title);
+                }
+            };
+            
+            // Initialize display
+            updateWishlistDisplay();
+        });
+    </script>
+</body>
+</html>

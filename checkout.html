@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Azowix Store</title>
+    <link rel="shortcut icon" href="azowix Icon.png" type="image/X-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+        
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            font-weight: 600;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            color: goldenrod;
+        }
+        
+        nav ul li a i {
+            font-size: 1.2rem;
+        }
+        
+        .cont {
+            background-color: goldenrod;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        /* Checkout Page Styles */
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .checkout-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .checkout-summary {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            align-self: flex-start;
+            position: sticky;
+            top: 20px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #222831;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: goldenrod;
+        }
+        
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #222831;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: goldenrod;
+            box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
+        }
+        
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .row .form-group {
+            flex: 1;
+        }
+        
+        .payment-methods {
+            margin-top: 30px;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: goldenrod;
+        }
+        
+        .payment-method input {
+            width: auto;
+            margin-right: 15px;
+        }
+        
+        .payment-method i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #555;
+        }
+        
+        .payment-method .payment-info {
+            flex: 1;
+        }
+        
+        .payment-method .payment-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .payment-method .payment-desc {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-summary-item .product-info {
+            display: flex;
+        }
+        
+        .order-summary-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .order-summary-item .product-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .order-summary-item .product-price {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .order-summary-item .product-quantity {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .order-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .order-total-row.total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #222831;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: goldenrod;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            background-color: #d4a017;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .empty-cart i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart p {
+            margin-bottom: 20px;
+            color: #777;
+        }
+        
+        .empty-cart .btn {
+            width: auto;
+            padding: 10px 20px;
+        }
+        
+        #msg {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .checkout-summary {
+                position: static;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="main.html"><img src="Azowix Store.png" alt="Azowix Store Logo" class="logo"></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop1.html">Shop</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="createaproduit.html">Create a Produit</a></li>
+                    <li>
+                        <a href="#" id="wishlist-toggle">
+                            <i class="fas fa-heart"></i>
+                            <span class="cont cont_favourite">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="cart-toggle">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cont cont_item_header">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Checkout</h1>
+        
+        <div class="checkout-container">
+            <!-- Checkout Form -->
+            <div class="checkout-form">
+                <h2>Billing Details</h2>
+                <form id="checkoutForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Street Address</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">ZIP Code</label>
+                            <input type="text" id="zip" name="zip" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select Country</option>
+                            <option value="Tunisia">Tunisia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Order Notes (Optional)</label>
+                        <textarea id="notes" name="notes" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <h2>Payment Method</h2>
+                        
+                        <div class="payment-method">
+                            <input type="radio" id="cashOnDelivery" name="paymentMethod" value="cashOnDelivery" checked>
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div class="payment-info">
+                                <div class="payment-title">Cash on Delivery</div>
+                                <div class="payment-desc">Pay with cash upon delivery</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <button type="submit" class="btn">Place Order</button>
+                    <span id="msg"></span>
+                </form>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="checkout-summary">
+                <h2>Your Order</h2>
+                <div id="orderSummary">
+                    <!-- Order items will be dynamically inserted here -->
+                </div>
+                
+                <div class="order-total">
+                    <div class="order-total-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">0Dt</span>
+                    </div>
+                    <div class="order-total-row">
+                        <span>Shipping</span>
+                        <span id="shipping">8Dt</span>
+                    </div>
+                    <div class="order-total-row total">
+                        <span>Total</span>
+                        <span id="total">8Dt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize cart
+        let cart = JSON.parse(localStorage.getItem('azowixCart')) || [];
+        
+        // DOM elements
+        const orderSummary = document.getElementById('orderSummary');
+        const subtotalElement = document.getElementById('subtotal');
+        const shippingElement = document.getElementById('shipping');
+        const totalElement = document.getElementById('total');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const msgElement = document.getElementById('msg');
+
+        // Update cart counters
+        function updateCounters() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cont_item_header').textContent = cartCount;
+        }
+
+        // Update order summary
+        function updateOrderSummary() {
+            if (cart.length === 0) {
+                orderSummary.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
+                        <a href="shop1.html" class="btn">Continue Shopping</a>
+                    </div>
+                `;
+                subtotalElement.textContent = '0Dt';
+                shippingElement.textContent = '0Dt';
+                totalElement.textContent = '0Dt';
+                return;
+            }
+            
+            let html = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                html += `
+                    <div class="order-summary-item">
+                        <div class="product-info">
+                            <img src="${item.image}" alt="${item.title}">
+                            <div>
+                                <div class="product-name">${item.title}</div>
+                                <div class="product-quantity">Qty: ${item.quantity}</div>
+                            </div>
+                        </div>
+                        <div class="product-price">${item.price * item.quantity}Dt</div>
+                    </div>
+                `;
+            });
+            
+            orderSummary.innerHTML = html;
+            subtotalElement.textContent = `${subtotal}Dt`;
+            const shipping = 8;
+            shippingElement.textContent = `${shipping}Dt`;
+            totalElement.textContent = `${subtotal + shipping}Dt`;
+        }
+
+        // Handle form submission
+        checkoutForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add some products before checkout.');
+                return;
+            }
+            
+            // Disable submit button during processing
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            
+            try {
+                // Prepare order data
+                const formData = new FormData(checkoutForm);
+                const orderData = {
+                    customer: {
+                        firstName: formData.get('firstName'),
+                        lastName: formData.get('lastName'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        address: formData.get('address'),
+                        city: formData.get('city'),
+                        zip: formData.get('zip'),
+                        country: formData.get('country'),
+                        notes: formData.get('notes') || ''
+                    },
+                    paymentMethod: formData.get('paymentMethod'),
+                    items: cart,
+                    subtotal: parseFloat(subtotalElement.textContent.replace('Dt', '')),
+                    shipping: 8,
+                    total: parseFloat(totalElement.textContent.replace('Dt', ''))
+                };
+                
+            const response = await fetch('https://script.google.com/macros/s/AKfycbyJTWItrXI64rPQv2H73t9BzD4ulkffEj4XeIa3zLrEP9G-8Evy6vv0_Jm-3xjRJIeT/exec', {
+            method: 'POST',
+            redirect: 'follow',
+            headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify(orderData)
+        });
+                const result = await response.json();
+                
+                if (result.status !== 'success') {
+                    throw new Error(result.message || 'Failed to save order');
+                }
+                
+                // Success handling
+                msgElement.textContent = 'Order placed successfully!';
+                msgElement.style.color = 'green';
+                
+                // Clear cart and update UI
+                localStorage.removeItem('azowixCart');
+                cart = [];
+                updateCounters();
+                updateOrderSummary();
+                
+                // Store order in history
+                const orders = JSON.parse(localStorage.getItem('azowixOrders')) || [];
+                orders.push({...orderData, id: result.orderId, date: new Date()});
+                localStorage.setItem('azowixOrders', JSON.stringify(orders));
+                
+                // Show success message
+                alert(`Order #${result.orderId} placed successfully! Thank you for shopping with us.`);
+                
+            } catch (error) {
+                console.error('Order error:', error);
+                msgElement.textContent = `Error: ${error.message}`;
+                msgElement.style.color = 'red';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Place Order';
+            }
+        });
+        
+        // Initialize page
+        updateCounters();
+        updateOrderSummary();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Formulaire PNG</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, goldenrod 0%, white 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, goldenrod 0%, gold 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: goldenrod;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .photo-upload-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .photo-upload {
+            flex: 1 1 calc(33% - 20px);
+            min-width: 150px;
+            border: 2px dashed goldenrod;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-upload:hover {
+            border-color: gold;
+            background: #f0f0f0;
+        }
+
+        .photo-upload input {
+            display: none;
+        }
+
+        .photo-preview-wrapper {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .photo-preview-wrapper img {
+            max-width: 100%;
+            max-height: 200px; /* Increased size */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            object-fit: cover; /* Changed from contain to cover */
+        }
+
+        .btn {
+            background: linear-gradient(135deg, goldenrod 0%, gold 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            background: #f8f9fa;
+        }
+
+        .personal-icon { color: gold; }
+        .product-icon { color: gold; }
+        .photo-icon { color: gold; }
+        /* Style pour l'icône de retour */
+        .return-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #555;
+            text-decoration: none;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .return-icon:hover {
+            transform: scale(1.1);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <a href="shop1.html" class="return-icon" title="Retour à la boutique">↩️</a>
+    <div class="container">
+        <div class="header">
+            <h1>Générateur de Formulaire</h1>
+            <p>Remplissez le formulaire et téléchargez-le en PNG</p>
+        </div>
+
+        <div class="form-container">
+            <form id="mainForm">
+                <!-- Informations Personnelles -->
+                <div class="section">
+                    <h2 class="section-title personal-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        Informations Personnelles
+                    </h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Prénom <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Votre prénom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Nom <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Votre nom" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Téléphone <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="+33 1 23 45 67 89" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Localisation <span class="required">*</span></label>
+                        <input type="text" id="location" name="location" placeholder="Ville, Pays" required>
+                    </div>
+                </div>
+
+                <!-- Informations Produit -->
+                <div class="section">
+                    <h2 class="section-title product-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35z"/>
+                        </svg>
+                        Informations Produit
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="productName">Nom du produit <span class="required">*</span></label>
+                        <input type="text" id="productName" name="productName" placeholder="Nom du produit" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantity">Quantité <span class="required">*</span></label>
+                            <input type="number" id="quantity" name="quantity" placeholder="1" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quality">Qualité <span class="required">*</span></label>
+                            <select id="quality" name="quality" required>
+                                <option value="">Sélectionner la qualité</option>
+                                <option value="standard">Standard</option>
+                                <option value="premium">Premium</option>
+                                <option value="deluxe">Deluxe</option>
+                                <option value="professionnel">Professionnel</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo -->
+                <div class="section">
+                    <h2 class="section-title photo-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12 15.5c1.93 0 3.5-1.57 3.5-3.5s-1.57-3.5-3.5-3.5-3.5 1.57-3.5 3.5 1.57 3.5 3.5 3.5zM17 3H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7V5h10v14z"/>
+                        </svg>
+                        Photos du produit (jusqu'à 3)
+                    </h2>
+                    
+                    <div class="photo-upload-container">
+                        <div class="photo-upload" onclick="document.getElementById('photo1').click()">
+                            <input type="file" id="photo1" name="photo1" accept="image/*">
+                            <svg class="icon" viewBox="0 0 24 24" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.6;">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <p>Photo 1</p>
+                            <div class="photo-preview-wrapper" id="photoPreview1" style="display: none;">
+                                <img id="previewImage1" src="" alt="Aperçu">
+                            </div>
+                        </div>
+                        
+                        <div class="photo-upload" onclick="document.getElementById('photo2').click()">
+                            <input type="file" id="photo2" name="photo2" accept="image/*">
+                            <svg class="icon" viewBox="0 0 24 24" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.6;">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <p>Photo 2</p>
+                            <div class="photo-preview-wrapper" id="photoPreview2" style="display: none;">
+                                <img id="previewImage2" src="" alt="Aperçu">
+                            </div>
+                        </div>
+
+                        <div class="photo-upload" onclick="document.getElementById('photo3').click()">
+                            <input type="file" id="photo3" name="photo3" accept="image/*">
+                            <svg class="icon" viewBox="0 0 24 24" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.6;">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <p>Photo 3</p>
+                            <div class="photo-preview-wrapper" id="photoPreview3" style="display: none;">
+                                <img id="previewImage3" src="" alt="Aperçu">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton de soumission -->
+                <button type="submit" class="btn" id="submitBtn">
+                    <svg class="icon" viewBox="0 0 24 24" style="width: 20px; height: 20px; margin-right: 8px;">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    Télécharger le formulaire PNG
+                </button>
+                
+                <div class="error-message" id="errorMessage" style="display: none;"></div>
+            </form>
+        </div>
+
+        <div class="footer">
+            <p>Toutes vos données restent privées et ne sont pas stockées sur nos serveurs</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales pour les photos
+        let photoDataURLs = [null, null, null];
+
+        // Gestion de l'upload de photo
+        document.getElementById('photo1').addEventListener('change', function(e) { handlePhotoChange(e, 0); });
+        document.getElementById('photo2').addEventListener('change', function(e) { handlePhotoChange(e, 1); });
+        document.getElementById('photo3').addEventListener('change', function(e) { handlePhotoChange(e, 2); });
+
+        function handlePhotoChange(e, index) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoDataURLs[index] = e.target.result;
+                    document.getElementById(`previewImage${index + 1}`).src = photoDataURLs[index];
+                    document.getElementById(`photoPreview${index + 1}`).style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Validation du formulaire
+        function validateForm() {
+            const requiredFields = ['firstName', 'lastName', 'phone', 'location', 'productName', 'quantity', 'quality'];
+            for (let field of requiredFields) {
+                if (!document.getElementById(field).value.trim()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Génération du PNG
+        async function generatePNG() {
+            const formElement = document.getElementById('mainForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!validateForm()) {
+                errorMessage.textContent = 'Veuillez remplir tous les champs obligatoires (*)';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            errorMessage.style.display = 'none';
+
+            submitBtn.innerHTML = '<div class="loading"></div>Génération en cours...';
+            submitBtn.disabled = true;
+
+            try {
+                // Temporarily hide the button and error message for a cleaner screenshot
+                submitBtn.style.display = 'none';
+                errorMessage.style.display = 'none';
+
+                const canvas = await html2canvas(formElement, {
+                    scale: 2, // Increase scale for better quality
+                    useCORS: true, // Enable cross-origin images if any
+                    allowTaint: true // Allow tainting canvas for local images
+                });
+
+                // Restore the button and error message display
+                submitBtn.style.display = 'block';
+
+                const imageData = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = imageData;
+                link.download = `formulaire_${document.getElementById('firstName').value}_${document.getElementById('lastName').value}_${Date.now()}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+            } catch (error) {
+                console.error('Erreur lors de la génération du PNG:', error);
+                errorMessage.textContent = 'Erreur lors de la génération du PNG. Veuillez réessayer.';
+                errorMessage.style.display = 'block';
+            } finally {
+                submitBtn.innerHTML = `
+                    <svg class="icon" viewBox="0 0 24 24" style="width: 20px; height: 20px; margin-right: 8px;">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    Télécharger le formulaire PNG
+                `;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generatePNG();
+        });
+
+        // Validation en temps réel
+        document.querySelectorAll('input[required], select[required]').forEach(field => {
+            field.addEventListener('input', function() {
+                const submitBtn = document.getElementById('submitBtn');
+                const errorMessage = document.getElementById('errorMessage');
+                
+                if (validateForm()) {
+                    submitBtn.disabled = false;
+                    errorMessage.style.display = 'none';
+                } else {
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('submitBtn').disabled = true;
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook Cooling Pad Cordie-1 - Azowix Store</title>
+    <link rel="shortcut icon" href="azowix Icon.png" type="image/X-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+        
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            font-weight: 600;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            color: goldenrod;
+        }
+        
+        nav ul li a i {
+            font-size: 1.2rem;
+        }
+        
+        .cont {
+            background-color: goldenrod;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        /* Mini-panels styles */
+        .mini-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            padding: 15px;
+        }
+
+        .mini-panel h3 {
+            margin-bottom: 15px;
+            color: #222831;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .panel-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .panel-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .panel-item-info {
+            flex: 1;
+        }
+
+        .panel-item-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .panel-item-price {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+
+        .panel-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .panel-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .panel-close-btn {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .panel-action-btn {
+            background-color: goldenrod;
+            color: white;
+        }
+
+        .empty-panel {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+        
+        /* Product Page Styles */
+        .product-page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .product-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .product-gallery img:hover {
+            transform: scale(1.02);
+        }
+        
+        .main-image {
+            grid-column: span 2;
+        }
+        
+        .product-info {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #222831;
+        }
+        
+        .product-price {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: goldenrod;
+            margin-right: 10px;
+        }
+        
+        .review-count {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .product-description {
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        
+        .tech-specs {
+            margin-bottom: 25px;
+        }
+        
+        .tech-specs h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .spec-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .spec-label {
+            font-weight: 600;
+            width: 120px;
+            color: #555;
+        }
+        
+        .spec-value {
+            flex: 1;
+        }
+        
+        .add-to-cart {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background-color: #f5f5f5;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        
+        .add-to-cart-btn {
+            flex: 1;
+            background-color: goldenrod;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: #d4a017;
+        }
+        
+        .product-features {
+            margin-top: 40px;
+            grid-column: span 2;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .feature-card i {
+            font-size: 2rem;
+            color: goldenrod;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .product-page {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .add-to-cart {
+                flex-direction: column;
+            }
+            
+            .quantity-selector {
+                width: 100%;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mini-panel {
+                width: 280px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="main.html"><img src="Azowix Store.png" alt="Azowix Store Logo" class="logo"></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop1.html">Shop</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="createaproduit.html">Create a Produit</a></li>
+                    <li>
+                        <a href="#" id="wishlist-toggle">
+                            <i class="fas fa-heart"></i>
+                            <span class="cont cont_favourite">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="cart-toggle">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cont cont_item_header">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mini-panels -->
+    <div class="mini-panel" id="wishlist-panel">
+        <h3>Your Wishlist</h3>
+        <div id="wishlist-items">
+            <div class="empty-panel">Your wishlist is empty</div>
+        </div>
+        <div class="panel-actions">
+            <button class="panel-btn panel-close-btn">Close</button>
+            <button class="panel-btn panel-action-btn" onclick="window.location.href='wishlist.html'">View All</button>
+        </div>
+    </div>
+
+    <div class="mini-panel" id="cart-panel">
+        <h3>Your Cart</h3>
+        <div id="cart-items">
+            <div class="empty-panel">Your cart is empty</div>
+        </div>
+        <div class="panel-actions">
+            <button class="panel-btn panel-close-btn" id="reset-cart-btn">Reset Cart</button>
+            <button class="panel-btn panel-action-btn" onclick="window.location.href='checkout.html'">Checkout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="product-page">
+            <!-- Product Gallery -->
+            <div class="product-gallery">
+                <img src="cooling pad 1.png" alt="Notebook Cooling Pad Cordie-1 - Main" class="main-image">
+                <img src="netbook cooling pad2.jpg" alt="Notebook Cooling Pad Cordie-1 - Angle View">
+                <img src="colling pad 4.jpg" alt="Notebook Cooling Pad Cordie-1 - USB Ports">
+            </div>
+            
+            <!-- Product Info -->
+            <div class="product-info">
+                <h1>Notebook Cooling Pad Cordie-1</h1>
+                <div class="product-price">45Dt</div>
+                <div class="product-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">(28 reviews)</div>
+                </div>
+                <div class="product-description">
+                    <p>The Cordie-1 Notebook Cooling Pad is designed to keep your laptop at optimal temperatures during intensive use. With its powerful dual-fan system and ergonomic design, it provides both cooling efficiency and comfortable typing angles.</p>
+                    <p>Features adjustable fan speeds, USB-powered operation, and a sturdy metal mesh surface that maximizes airflow while supporting laptops up to 17 inches.</p>
+                </div>
+                
+                <!-- Technical Specifications -->
+                <div class="tech-specs">
+                    <h3>Technical Specifications:</h3>
+                    <div class="spec-item">
+                        <div class="spec-label">Material:</div>
+                        <div class="spec-value">Plastic + Metal Mesh</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Fans:</div>
+                        <div class="spec-value">2 x 120mm high-speed fans</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Fan Speeds:</div>
+                        <div class="spec-value">3 adjustable levels</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Power:</div>
+                        <div class="spec-value">USB powered (includes USB passthrough)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Compatibility:</div>
+                        <div class="spec-value">Up to 17-inch laptops</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Dimensions:</div>
+                        <div class="spec-value">360 x 280 x 45mm</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Weight:</div>
+                        <div class="spec-value">650g</div>
+                    </div>
+                </div>
+                
+                <!-- Add to Cart -->
+                <div class="add-to-cart">
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                    <button class="add-to-cart-btn">ADD TO CART</button>
+                </div>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="product-features">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-fan"></i>
+                        <h3>Dual Cooling Fans</h3>
+                        <p>Two 120mm high-speed fans provide powerful airflow to effectively cool your laptop.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-sliders-h"></i>
+                        <h3>Adjustable Speed</h3>
+                        <p>Three speed settings to customize cooling performance based on your needs.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-laptop"></i>
+                        <h3>Ergonomic Design</h3>
+                        <p>Elevated design provides a comfortable typing angle while improving airflow.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-plug"></i>
+                        <h3>USB Powered</h3>
+                        <p>Simple USB connection powers the cooling pad and includes an extra USB port.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize cart and wishlist from localStorage
+            let cart = JSON.parse(localStorage.getItem('azowixCart')) || [];
+            let wishlist = JSON.parse(localStorage.getItem('azowixWishlist')) || [];
+            
+            // DOM elements
+            const wishlistPanel = document.getElementById('wishlist-panel');
+            const cartPanel = document.getElementById('cart-panel');
+            const wishlistToggle = document.getElementById('wishlist-toggle');
+            const cartToggle = document.getElementById('cart-toggle');
+            const resetCartBtn = document.getElementById('reset-cart-btn');
+            const wishlistItemsContainer = document.getElementById('wishlist-items');
+            const cartItemsContainer = document.getElementById('cart-items');
+            
+            // Update cart and wishlist counts and panels
+            function updateUI() {
+                updateCounts();
+                updatePanels();
+            }
+            
+            // Update counts
+            function updateCounts() {
+                // Cart count
+                const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.querySelector('.cont_item_header').textContent = cartCount;
+                
+                // Wishlist count
+                document.querySelector('.cont_favourite').textContent = wishlist.length;
+            }
+            
+            // Update panels content
+            function updatePanels() {
+                // Update wishlist panel
+                if (wishlist.length > 0) {
+                    let html = '';
+                    wishlist.forEach(product => {
+                        html += `
+                            <div class="panel-item">
+                                <img src="${product.image}" alt="${product.title}">
+                                <div class="panel-item-info">
+                                    <div class="panel-item-title">${product.title}</div>
+                                    <div class="panel-item-price">${product.price}Dt</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    wishlistItemsContainer.innerHTML = html;
+                } else {
+                    wishlistItemsContainer.innerHTML = '<div class="empty-panel">Your wishlist is empty</div>';
+                }
+                
+                // Update cart panel
+                if (cart.length > 0) {
+                    let html = '';
+                    cart.forEach(item => {
+                        html += `
+                            <div class="panel-item">
+                                <img src="${item.image}" alt="${item.title}">
+                                <div class="panel-item-info">
+                                    <div class="panel-item-title">${item.title}</div>
+                                    <div class="panel-item-price">${item.price}Dt × ${item.quantity}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    cartItemsContainer.innerHTML = html;
+                } else {
+                    cartItemsContainer.innerHTML = '<div class="empty-panel">Your cart is empty</div>';
+                }
+            }
+            
+            // Quantity selector
+            const minusBtn = document.querySelector('.minus');
+            const plusBtn = document.querySelector('.plus');
+            const quantityInput = document.querySelector('.quantity-input');
+            
+            minusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                }
+            });
+            
+            plusBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                quantityInput.value = value + 1;
+            });
+            
+            // Add to cart
+            const addToCartBtn = document.querySelector('.add-to-cart-btn');
+            addToCartBtn.addEventListener('click', function() {
+                const product = {
+                    id: '2',
+                    title: 'Notebook Cooling Pad Cordie-1',
+                    image: 'photo/colling pad 4.jpg',
+                    price: 45,
+                    category: 'Accessories',
+                    quantity: parseInt(quantityInput.value)
+                };
+                
+                // Check if product is already in cart
+                const existingItemIndex = cart.findIndex(item => item.id === product.id);
+                
+                if (existingItemIndex !== -1) {
+                    // Update quantity if already in cart
+                    cart[existingItemIndex].quantity += product.quantity;
+                } else {
+                    // Add new item to cart
+                    cart.push(product);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('azowixCart', JSON.stringify(cart));
+                
+                // Update UI
+                updateUI();
+                
+                // Show feedback
+                alert('Added to cart: ' + product.title + ' (Qty: ' + product.quantity + ')');
+            });
+            
+            // Wishlist toggle
+            wishlistToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const product = {
+                    id: '2',
+                    title: 'Notebook Cooling Pad Cordie-1',
+                    image: 'photo/colling pad 4.jpg',
+                    price: 45,
+                    category: 'Accessories'
+                };
+                
+                // Check if product is in wishlist
+                const index = wishlist.findIndex(item => item.id === product.id);
+                
+                if (index === -1) {
+                    // Add to wishlist
+                    wishlist.push(product);
+                } else {
+                    // Remove from wishlist
+                    wishlist.splice(index, 1);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('azowixWishlist', JSON.stringify(wishlist));
+                
+                // Update UI
+                updateUI();
+            });
+            
+            // Cart toggle
+            cartToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                cartPanel.style.display = cartPanel.style.display === 'block' ? 'none' : 'block';
+                if (wishlistPanel.style.display === 'block') {
+                    wishlistPanel.style.display = 'none';
+                }
+            });
+            
+            // Wishlist panel toggle
+            wishlistToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                wishlistPanel.style.display = wishlistPanel.style.display === 'block' ? 'none' : 'block';
+                if (cartPanel.style.display === 'block') {
+                    cartPanel.style.display = 'none';
+                }
+            });
+            
+            // Reset cart button
+            resetCartBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to reset your cart?')) {
+                    cart = [];
+                    localStorage.setItem('azowixCart', JSON.stringify(cart));
+                    updateUI();
+                    alert('Your cart has been reset.');
+                }
+            });
+            
+            // Close panels when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!wishlistPanel.contains(e.target) && e.target !== wishlistToggle && !wishlistToggle.contains(e.target)) {
+                    wishlistPanel.style.display = 'none';
+                }
+                if (!cartPanel.contains(e.target) && e.target !== cartToggle && !cartToggle.contains(e.target)) {
+                    cartPanel.style.display = 'none';
+                }
+            });
+            
+            // Initialize UI
+            updateUI();
+        });
+    </script>
+</body>
+</html>
